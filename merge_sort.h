@@ -55,13 +55,26 @@ void merge(vector<Crime*>* dataSet, unsigned int stat, int left, int middle, int
 
 }
 
-void mergeSort(vector<Crime*>* dataSet, unsigned int stat, int start, int end) {
+void mergeSortHelper(vector<Crime*>* dataSet, unsigned int stat, int start, int end) {
 
     if ( start < end ) { // Base case for array size 1
         int middle = start + (end - start) / 2; // Use this formula for average to prevent integer overflow
-        mergeSort(dataSet, stat, start, middle);
-        mergeSort(dataSet, stat, middle + 1, end);
+        mergeSortHelper(dataSet, stat, start, middle);
+        mergeSortHelper(dataSet, stat, middle + 1, end);
         merge(dataSet, stat, start, middle, end);
     }
 }
 
+
+void mergeSort(vector<Crime*>* dataSet, unsigned int stat) {
+
+    int start = 0;
+    int end = dataSet->size()-1;
+
+    if ( start < end ) { // Base case for array size 1
+        int middle = start + (end - start) / 2; // Use this formula for average to prevent integer overflow
+        mergeSortHelper(dataSet, stat, start, middle);
+        mergeSortHelper(dataSet, stat, middle + 1, end);
+        merge(dataSet, stat, start, middle, end);
+    }
+}
