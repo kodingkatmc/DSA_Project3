@@ -4,33 +4,35 @@
 
 using namespace std;
 
-unsigned int getData ( Crime data, unsigned int stat ) {
+unsigned int getData ( Crime* data, unsigned int stat ) {
     switch ( stat ) {
         case 0:
-            return data.year;
+            return data->year;
         case 1:
-            return data.age;
+            return data->age;
         case 2:
-            return data.valueStolen;
+            return data->valueStolen;
         case 3:
-            return data.valueRec;
+            return data->valueRec;
         case 4:
-            return data.descCode;
+            return data->descCode;
     }
     return 0;
 }
 
-void radixSort( vector<Crime>* dataSet, unsigned int stat ) {
+void radixSort( vector<Crime*>* dataSet, unsigned int stat ) {
 
     // Store original input pointer
-    vector<Crime>* original = dataSet;
+    vector<Crime*>* original = dataSet;
     // Save dataSet length;
     unsigned int size = (*dataSet).size();
     // Create and fill second vector
-    vector<Crime>* rebuild = new vector<Crime>;
+    vector<Crime*>* rebuild = new vector<Crime*>;
+    vector<Crime*>* tempValues = new vector<Crime*>;
     for ( unsigned int i=0; i < size; i++) {
-        Crime temp;
+        Crime* temp = new Crime;
         rebuild->push_back(temp);
+        tempValues->push_back(temp);
     }
     // Count array for counts
     unsigned int* count = new unsigned int[16];
@@ -66,7 +68,7 @@ void radixSort( vector<Crime>* dataSet, unsigned int stat ) {
         }
 
         // Swap pointers
-        vector<Crime>* tempPointer = dataSet;
+        vector<Crime*>* tempPointer = dataSet;
         dataSet = rebuild;
         rebuild = tempPointer;
 
@@ -81,6 +83,10 @@ void radixSort( vector<Crime>* dataSet, unsigned int stat ) {
     }
 
     // Delete extra data
+    for ( unsigned int i = 0; i < size ; i++ ){
+        delete tempValues->at(i);
+    }
+    delete tempValues;
     delete rebuild;
     delete[] count;
     

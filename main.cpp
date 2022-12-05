@@ -18,7 +18,7 @@ int main() {
         return -1;
     }
 
-    vector<Crime> dataSet;
+    vector<Crime*> dataSet;
 
     string line;
     // Clears first line which contains column headers
@@ -26,7 +26,7 @@ int main() {
 
     // Reads data in from file
     while ( getline(input, line) ) {
-        Crime tempInput;
+        Crime* tempInput = new Crime;
 
         for ( unsigned int i=0; i<32; i++ ) {
             
@@ -45,32 +45,32 @@ int main() {
             // cout << cell;
             switch ( i ) {
                 case 0:
-                    tempInput.year = stoi(cell);
+                    tempInput->year = stoi(cell);
                     break;
                 case 2:
-                    tempInput.agency = cell;
+                    tempInput->agency = cell;
                     break;
                 case 6:
-                    tempInput.state = cell;
+                    tempInput->state = cell;
                     break;
                 case 16:
                     if ( cell == "" ) {
-                        tempInput.age = 0;
+                        tempInput->age = 0;
                     } else {
-                        tempInput.age = stoi(cell);
+                        tempInput->age = stoi(cell);
                     }
                     break;
                 case 24:
-                    tempInput.descCode = stoi(cell);
+                    tempInput->descCode = stoi(cell);
                     break;
                 case 27:
-                    tempInput.desc = cell;
+                    tempInput->desc = cell;
                     break;
                 case 28:
-                    tempInput.valueStolen = stoi(cell);
+                    tempInput->valueStolen = stoi(cell);
                     break;
                 case 29:
-                    tempInput.valueRec = stoi(cell);
+                    tempInput->valueRec = stoi(cell);
                     break;
             }
         }
@@ -80,14 +80,14 @@ int main() {
     }
 
     // Testing output TODO: remove
-    cout << dataSet[0].year << ", " << dataSet[0].age << ", " << dataSet[0].valueStolen << ", " << dataSet[0].valueRec << ", " << dataSet[0].descCode << ", " << dataSet[0].agency << ", " << dataSet[0].state << ", " << dataSet[0].desc << "\n";
+    cout << dataSet[0]->year << ", " << dataSet[0]->age << ", " << dataSet[0]->valueStolen << ", " << dataSet[0]->valueRec << ", " << dataSet[0]->descCode << ", " << dataSet[0]->agency << ", " << dataSet[0]->state << ", " << dataSet[0]->desc << "\n";
 
     // // Testing Sorting TODO: remove
-    // for ( unsigned int i = 0; i < 1; i++) {
-    //     Crime temp;
-    //     temp.age = rand()*999;
-    //     dataSet.push_back(temp);
-    // }
+    for ( unsigned int i = 0; i < 20; i++) {
+        Crime* temp = new Crime;
+        temp->age = rand()*999;
+        dataSet.push_back(temp);
+    }
 
     // Menu loop
     string inputString="";
@@ -97,7 +97,7 @@ int main() {
         radixSort(&dataSet, 1);
 
         for (auto item : dataSet) {
-            cout << item.age << ", ";
+            cout << item->age << ", ";
         }
         cout << "\n";
 
@@ -106,6 +106,9 @@ int main() {
 
     input.close();
 
+    for ( unsigned int i = 0; i < dataSet.size(); i++ ){
+        delete dataSet[i];
+    }
 
     return 0;
 }
