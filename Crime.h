@@ -7,9 +7,9 @@ struct Crime{
     // Sortable values
     unsigned int year;
     unsigned int age;
-    float valueStolen;
-    float valueRec;
-    int descCode; // TODO: maybe not use
+    unsigned int valueStolen;
+    unsigned int valueRec;
+    unsigned int descCode; // TODO: maybe not use
 
     //Other Values
     string agency;

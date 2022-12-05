@@ -66,10 +66,10 @@ int main() {
                     tempInput.desc = cell;
                     break;
                 case 28:
-                    tempInput.valueStolen = stof(cell);
+                    tempInput.valueStolen = stoi(cell);
                     break;
                 case 29:
-                    tempInput.valueRec = stof(cell);
+                    tempInput.valueRec = stoi(cell);
                     break;
             }
         }
