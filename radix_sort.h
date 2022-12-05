@@ -4,22 +4,6 @@
 
 using namespace std;
 
-unsigned int getData ( Crime* data, unsigned int stat ) {
-    switch ( stat ) {
-        case 0:
-            return data->year;
-        case 1:
-            return data->age;
-        case 2:
-            return data->valueStolen;
-        case 3:
-            return data->valueRec;
-        case 4:
-            return data->descCode;
-    }
-    return 0;
-}
-
 void radixSort( vector<Crime*>* dataSet, unsigned int stat ) {
 
     // Store original input pointer
@@ -47,7 +31,7 @@ void radixSort( vector<Crime*>* dataSet, unsigned int stat ) {
 
         // Counting loop
         for ( unsigned int i=0; i < size; i++ ) {
-            unsigned int data = getData(dataSet->at(i), stat);
+            unsigned int data = (dataSet->at(i))->getData(stat);
             count[data >> (iter*4) & 0xf]++;
         }
 
@@ -59,7 +43,7 @@ void radixSort( vector<Crime*>* dataSet, unsigned int stat ) {
         // Rebuild Array
         for ( int i=size-1; i >= 0; i-- ) {
             // Calcualte offset index
-            unsigned int data = getData(dataSet->at(i), stat);
+            unsigned int data = (dataSet->at(i))->getData(stat);
             unsigned int index = (data >> (iter*4)) & 0xf;
             
             count[index]--;

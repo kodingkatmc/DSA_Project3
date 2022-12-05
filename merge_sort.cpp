@@ -29,7 +29,7 @@ void merge(vector<Crime*>* dataSet, unsigned int stat, int left, int middle, int
     while ( x < sizeLeft && y < sizeRight ) {
 
         // leftArray[x] <= rightArray[y]
-        if (getData(leftArray[x], stat) <= getData(rightArray[y], stat)) {
+        if (leftArray[x]->getData(stat) <= rightArray[y]->getData(stat)) {
             dataSet->at(i) = leftArray[x];
             ++x;
         }

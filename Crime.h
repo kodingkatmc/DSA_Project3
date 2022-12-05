@@ -3,17 +3,50 @@
 
 using namespace std;
 
-struct Crime{
-    // Sortable values
-    unsigned int year;
-    unsigned int age;
-    unsigned int valueStolen;
-    unsigned int valueRec;
-    unsigned int descCode;
+class Crime{
 
-    //Other Values
-    string agency;
-    string state;
-    string desc;
+    public:
+        // Sortable values
+        unsigned int year;
+        unsigned int age;
+        unsigned int valueStolen;
+        unsigned int valueRec;
+        unsigned int descCode;
+
+        //Other Values
+        string agency;
+        string state;
+        string desc;
+
+        Crime();
+        unsigned int getData( unsigned int stat );
 
 };
+
+Crime::Crime() {
+    year = -1;
+    age = -1;
+    valueStolen = -1;
+    valueRec = -1;
+    descCode = -1;
+
+    agency = "";
+    state = "";
+    desc = "";
+}
+
+unsigned int Crime::getData ( unsigned int stat ) {
+    switch ( stat ) {
+        case 0:
+            return this->year;
+        case 1:
+            return this->age;
+        case 2:
+            return this->valueStolen;
+        case 3:
+            return this->valueRec;
+        case 4:
+            return this->descCode;
+    }
+    return 0;
+}
