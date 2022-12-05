@@ -24,11 +24,11 @@ class Crime{
 };
 
 Crime::Crime() {
-    year = -1;
-    age = -1;
-    valueStolen = -1;
-    valueRec = -1;
-    descCode = -1;
+    year = 0;
+    age = 0;
+    valueStolen = 0;
+    valueRec = 0;
+    descCode = 0;
 
     agency = "";
     state = "";

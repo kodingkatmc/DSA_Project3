@@ -5,6 +5,7 @@
 
 #include "Crime.h"
 #include "radix_sort.h"
+#include "merge_sort.h"
 
 using namespace std;
 
@@ -75,33 +76,37 @@ int main() {
             }
         }
 
-        dataSet.push_back(tempInput);        
+        dataSet.push_back(tempInput);
 
     }
 
     // Testing output TODO: remove
     cout << dataSet[0]->year << ", " << dataSet[0]->age << ", " << dataSet[0]->valueStolen << ", " << dataSet[0]->valueRec << ", " << dataSet[0]->descCode << ", " << dataSet[0]->agency << ", " << dataSet[0]->state << ", " << dataSet[0]->desc << "\n";
 
-    // // Testing Sorting TODO: remove
+    // Testing Sorting TODO: remove
     for ( unsigned int i = 0; i < 20; i++) {
         Crime* temp = new Crime;
-        temp->age = rand()*999;
+        temp->age = rand()%999;
         dataSet.push_back(temp);
     }
+
+    // More Testing TODO: remove
+    for (auto item : dataSet) {
+        cout << item->age << ", ";
+    }
+    cout << "\n";
+    radixSort(&dataSet, 1);
+    for (auto item : dataSet) {
+        cout << item->age << ", ";
+    }
+    cout << "\n";
+
 
     // Menu loop
     string inputString="";
     while ( inputString != "exit" ) {
-        cin >> inputString;
-
-        radixSort(&dataSet, 1);
-
-        for (auto item : dataSet) {
-            cout << item->age << ", ";
-        }
-        cout << "\n";
-
         // FIXME: Implement menu
+        cin >> inputString;
     }
 
     input.close();

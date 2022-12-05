@@ -11,13 +11,7 @@ void radixSort( vector<Crime*>* dataSet, unsigned int stat ) {
     // Save dataSet length;
     unsigned int size = (*dataSet).size();
     // Create and fill second vector
-    vector<Crime*>* rebuild = new vector<Crime*>;
-    vector<Crime*>* tempValues = new vector<Crime*>;
-    for ( unsigned int i=0; i < size; i++) {
-        Crime* temp = new Crime;
-        rebuild->push_back(temp);
-        tempValues->push_back(temp);
-    }
+    vector<Crime*>* rebuild = new vector<Crime*>(size);
     // Count array for counts
     unsigned int* count = new unsigned int[16];
 
@@ -36,7 +30,7 @@ void radixSort( vector<Crime*>* dataSet, unsigned int stat ) {
         }
 
         // Prefix-Sum loop
-        for ( unsigned int i=1; i < size; i++ ) {
+        for ( unsigned int i=1; i < 16; i++ ) {
             count[i] += count[i-1];
         }
 
@@ -67,10 +61,6 @@ void radixSort( vector<Crime*>* dataSet, unsigned int stat ) {
     }
 
     // Delete extra data
-    for ( unsigned int i = 0; i < size ; i++ ){
-        delete tempValues->at(i);
-    }
-    delete tempValues;
     delete rebuild;
     delete[] count;
     
