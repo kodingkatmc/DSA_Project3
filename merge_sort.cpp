@@ -3,23 +3,6 @@
 
 using namespace std;
 
-unsigned int getData ( Crime* data, unsigned int stat ) {
-    switch (stat) {
-        case 0:
-            return data->year;
-        case 1:
-            return data->age;
-        case 2:
-            return data->valueStolen;
-        case 3:
-            return data->valueRec;
-        case 4:
-            return data->descCode;
-    }
-    return 0;
-}
-
-
 // Borrowing structure from merge sort pseudocode on Sorting PPT page 88
 void merge(vector<Crime*>* dataSet, unsigned int stat, int left, int middle, int right) {
 
