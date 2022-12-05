@@ -9,10 +9,11 @@ struct Crime{
     unsigned int age;
     unsigned int valueStolen;
     unsigned int valueRec;
-    unsigned int descCode; // TODO: maybe not use
+    unsigned int descCode;
 
     //Other Values
     string agency;
     string state;
     string desc;
+
 };
