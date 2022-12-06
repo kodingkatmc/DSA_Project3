@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <chrono>
 
 #include "Crime.h"
 #include "radix_sort.h"
@@ -14,7 +15,7 @@ int main() {
     
     // Open file
     ifstream input;
-    input.open("CT_2013_2021_very_reduced.csv");
+    input.open("CT_2013_2021_reduced.csv");
     if ( !input.is_open() ) {
         cerr << "Error Opening File\n";
         return -1;
@@ -81,28 +82,28 @@ int main() {
 
     }
 
-    // Testing Adding Random Values TODO: remove
-    for ( unsigned int i = 0; i < 20; i++) {
-        Crime* temp = new Crime;
-        temp->age = rand()%999;
-        temp->valueStolen = rand()%999;
-        dataSet.push_back(temp);
-    }
-
-    // Testing Sorting TODO: remove
-    for (auto item : dataSet) {
-        cout << item->age << ", ";
-    }
-    cout << "\n";
-    mergeSort(&dataSet, 1);
-    for (auto item : dataSet) {
-        cout << item->age << ", ";
-    }
-    cout << "\n";
-    radixSort(&dataSet, 2);
-    for (auto item : dataSet) {
-        cout << item->valueStolen << ", ";
-    }
+//    // Testing Adding Random Values TODO: remove
+//    for ( unsigned int i = 0; i < 20; i++) {
+//        Crime* temp = new Crime;
+//        temp->age = rand()%999;
+//        temp->valueStolen = rand()%999;
+//        dataSet.push_back(temp);
+//    }
+//
+//    // Testing Sorting TODO: remove
+//    for (auto item : dataSet) {
+//        cout << item->age << ", ";
+//    }
+//    cout << "\n";
+//    mergeSort(&dataSet, 1);
+//    for (auto item : dataSet) {
+//        cout << item->age << ", ";
+//    }
+//    cout << "\n";
+//    radixSort(&dataSet, 2);
+//    for (auto item : dataSet) {
+//        cout << item->valueStolen << ", ";
+//    }
     cout << "\n";
 
     // Menu objects
@@ -123,6 +124,8 @@ int main() {
     static const char *const input_prompt =
             "Input: "
             ;
+
+    char wheel[] = {'\\','|','/', '-'}; // For loading animation
 
     static const char *const sorting_menu =
             "\n"
@@ -170,16 +173,53 @@ int main() {
             case 1:
                 // TODO: Create sorting menu
                 // Select sorting algorithm
-                cout << sorting_menu;
-                cout << input_prompt;
-                cin >> sortInput;
+                while (inputString != "y") { // Keep looping the sort menu if user does not confirm their choices
+                    cout << sorting_menu;
+                    cout << input_prompt;
+                    cin >> sortInput;
 
-                cout << characteristic_menu;
-                cout << input_prompt;
-                cin >> characteristicInput;
+                    cout << characteristic_menu;
+                    cout << input_prompt;
+                    cin >> characteristicInput;
 
-                // Print back the selected options and ask to confirm the choices
+                    cout << "\n";
+                    // Print back the selected options and ask to confirm the choices
+                    if (sortInput == "1") {
+                        cout << "Sort: Radix" << endl;
+                    } else if (sortInput == "2") {
+                        cout << "Sort: Merge" << endl;
+                    }
 
+                    switch (stoi(characteristicInput)) { // Print back the selected characteristic
+                        case 1:
+                            cout << "Characteristic: Year" << endl;
+                            break;
+
+                        case 2:
+                            cout << "Characteristic: Offender Age" << endl;
+                            break;
+
+                        case 3:
+                            cout << "Characteristic: Value Stolen" << endl;
+                            break;
+
+                        case 4:
+                            cout << "Characteristic: Value Recovered" << endl;
+                            break;
+
+                        case 5:
+                            cout << "Characteristic: Description Code" << endl;
+                            break;
+                    }
+
+                    cout << "\n";
+
+                    cout << "Are these choices correct? (Y/n) ";
+                    cin >> inputString;
+                }
+
+                cout << "\n";
+                cout << "We can now search the data in log(n) time!\n\n";
                 break;
 
             // Search Data
@@ -188,7 +228,22 @@ int main() {
                 break;
 
             case 3:
-                break;
+
+                cout << "\n";
+
+                // Measure merge sort time
+                auto mergeStart = chrono::high_resolution_clock::now();
+                mergeSort(&dataSet, 2);
+                auto mergeStop = chrono::high_resolution_clock::now();
+                auto mergeDuration = chrono::duration_cast<chrono::microseconds>(mergeStop - mergeStart);
+
+                auto radixStart = chrono::high_resolution_clock::now();
+                radixSort(&dataSet, 1);
+                auto radixStop = chrono::high_resolution_clock::now();
+                auto radixDuration = chrono::duration_cast<chrono::microseconds>( radixStop - radixStart);
+
+                cout << "Radix Sort (microseconds): " << radixDuration.count() << endl;
+                cout << "Merge Sort (microseconds): " << mergeDuration.count() << "\n" << endl; // Added extra newline to sperate from Main Menu
         }
 
     }
