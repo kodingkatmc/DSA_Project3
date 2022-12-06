@@ -6,6 +6,7 @@
 #include "Crime.h"
 #include "radix_sort.h"
 #include "merge_sort.h"
+#include "menu.h"
 
 using namespace std;
 
@@ -104,12 +105,92 @@ int main() {
     }
     cout << "\n";
 
+    // Menu objects
+    static const char *const menu_title =
+            " __  __              \n"
+            "|  \\/  |___ _ _ _  _ \n"
+            "| |\\/| / -_) ' \\ || |\n"
+            "|_|  |_\\___|_||_\\_,_|\n"
+            "======================\n";
+
+    static const char *const main_menu_options =
+            "(1) Sort Data\n"
+            "(2) Search Data\n"
+            "(3) Sort Comparison\n"
+            "(exit)\n\n"
+            ;
+
+    static const char *const input_prompt =
+            "Input: "
+            ;
+
+    static const char *const sorting_menu =
+            "\n"
+            "+--------------------+\n"
+            "| Sorting Algorithms |\n"
+            "+--------------------+\n"
+            "| (1) Radix          |\n"
+            "| (2) Merge          |\n"
+            "+--------------------+\n"
+            ;
+
+    static const char *const characteristic_menu =
+            "\n"
+            "+----------------------+\n"
+            "|   Characteristics    |\n"
+            "+----------------------+\n"
+            "| (1) Year             |\n"
+            "| (2) Offender Age     |\n"
+            "| (3) Value Stolen     |\n"
+            "| (4) Value Recovered  |\n"
+            "| (5) Description Code |\n"
+            "+----------------------+\n"
+            ;
 
     // Menu loop
     string inputString="";
+
     while ( inputString != "exit" ) {
         // FIXME: Implement menu
+        cout << menu_title;
+        cout << main_menu_options;
+        cout << input_prompt;
         cin >> inputString;
+
+        // For testing
+        if (inputString == "exit") {
+            continue;
+        }
+
+        string sortInput = "";
+        string characteristicInput = "";
+        switch(stoi(inputString)) {
+
+            // Sort Data
+            case 1:
+                // TODO: Create sorting menu
+                // Select sorting algorithm
+                cout << sorting_menu;
+                cout << input_prompt;
+                cin >> sortInput;
+
+                cout << characteristic_menu;
+                cout << input_prompt;
+                cin >> characteristicInput;
+
+                // Print back the selected options and ask to confirm the choices
+
+                break;
+
+            // Search Data
+            case 2:
+                // TODO: Create searching menu
+                break;
+
+            case 3:
+                break;
+        }
+
     }
 
     input.close();
