@@ -7,6 +7,7 @@
 #include "Crime.h"
 #include "radix_sort.h"
 #include "merge_sort.h"
+#include "linear_search.h"
 
 using namespace std;
 
@@ -275,6 +276,8 @@ int main() {
 
                 cout << "Radix Sort (microseconds): " << radixDuration.count() << endl;
                 cout << "Merge Sort (microseconds): " << mergeDuration.count() << endl << endl; // Added extra newline to sperate from Main Menu
+
+                break;
         }
 
     }
