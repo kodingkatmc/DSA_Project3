@@ -262,7 +262,7 @@ int main() {
             case 2: {
                 characteristicInput = getNumInput(characteristic_menu, input_prompt, 1, 5);
 
-                unsigned int query = getNumInput(search_menu, input_prompt, 0, 2147483646);
+                unsigned int query = getNumInput(search_menu, input_prompt, 0, 4294967295);
 
                 // Linear Search
                 vector<Crime*> results;
