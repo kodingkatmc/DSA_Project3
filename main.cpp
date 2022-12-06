@@ -30,7 +30,7 @@ int getNumInput(string menu, string prompt, int begin, int end) {
             if ( output >= begin && output <= end) {
                 parsable = true;
             } else {
-                cout << "Number not in Range (" << begin << "-" << end << ")\n"; 
+                cout << "Number not in Range (" << begin << "-" << end << ")\n\n";
             }
         } catch (exception) {
             cout << "Input not Parsable\n";
