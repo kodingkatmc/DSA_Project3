@@ -270,21 +270,47 @@ int main() {
                 results = linearSearch(dataSet, query, characteristicInput);
                 auto linearStop = chrono::high_resolution_clock::now();
                 auto linearDuration = chrono::duration_cast<chrono::microseconds>(linearStop - linearStart);
-                cout << "Linear Search (microseconds): " << linearDuration.count() << "\n";
+                cout << "\nLinear Search (microseconds): " << linearDuration.count() << "\n";
 
                 // Binary Search (requires sorted data)
                 radixSort(&dataSet, characteristicInput);
                 
-                binarySearch(dataSet, query, characteristicInput);
-                
+                auto binaryStart = chrono::high_resolution_clock::now();
+                results = binarySearch(dataSet, query, characteristicInput);
+                auto binaryStop = chrono::high_resolution_clock::now();
+                auto binaryDuration = chrono::duration_cast<chrono::microseconds>(binaryStop - binaryStart);
+                cout << "Binary Search (microseconds): " << binaryDuration.count() << "\n\n";
+
                 // Print Found Data
                 if ( results.size() == 0 ) {
                     cout << "No item found with specified query\n";
                 } else {
-                    cout << "The following data was found:\n";    
-                    for ( auto item : results ) {
-                        cout << item->getData(characteristicInput) << ", ";
+                    if (results.size() > 20) {
+                        cout << results.size() << " items match the selected query\nShowing the first 20\n";
+                        for ( unsigned int i = 0; i < 20; i++ ) {
+                            cout << "Year: " << results[i]->year << ", ";
+                            cout << "Age: " << results[i]->age << ", ";
+                            cout << "Value Stolen: " << results[i]->valueStolen << ", ";
+                            cout << "Value Recovered: " << results[i]->valueRec << ", ";
+                            cout << "Description Code: " << results[i]->descCode << ", ";
+                            cout << "Agency: " << results[i]->agency << ", ";
+                            cout << "State: " << results[i]->state << ", ";
+                            cout << "Description: " << results[i]->desc << "\n";
+                        }
+                    } else {
+                        cout << results.size() << " items match the selected query\n Showing All";
+                        for ( auto item : results ) {
+                            cout << "Year: " << item->year << ", ";
+                            cout << "Age: " << item->age << ", ";
+                            cout << "Value Stolen: " << item->valueStolen << ", ";
+                            cout << "Value Recovered: " << item->valueRec << ", ";
+                            cout << "Description Code: " << item->descCode << ", ";
+                            cout << "Agency: " << item->agency << ", ";
+                            cout << "State: " << item->state << ", ";
+                            cout << "Description: " << item->desc << "\n";
+                        }
                     }
+                    
                     cout << "\n";
                 }
 
