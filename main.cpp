@@ -144,8 +144,6 @@ int main() {
             "Input: "
             ;
 
-    char wheel[] = {'\\','|','/', '-'}; // For loading animation FIXME: Do we need this
-
     static const char *const sorting_menu =
             "\n"
             "+--------------------+\n"
