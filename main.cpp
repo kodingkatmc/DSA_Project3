@@ -43,7 +43,7 @@ int main() {
     
     // Open file
     ifstream input;
-    input.open("CT_2013_2021_reduced.csv");
+    input.open("CT_2013_2021.csv");
     if ( !input.is_open() ) {
         cerr << "Error Opening File\n";
         return -1;
@@ -62,6 +62,7 @@ int main() {
         for ( unsigned int i=0; i<32; i++ ) {
             
             string cell;
+            string temp = line;
 
             if ( line.substr(0,1) == "\"" ) {
                 line = line.substr(line.find("\"")+1);
@@ -75,7 +76,11 @@ int main() {
             // cout << cell;
             switch ( i ) {
                 case 0:
-                    tempInput->year = stoi(cell);
+                    if ( cell == "" ) {
+                        tempInput->year = 0;
+                    } else {
+                        tempInput->year = stoi(cell);
+                    }
                     break;
                 case 2:
                     tempInput->agency = cell;
@@ -91,16 +96,28 @@ int main() {
                     }
                     break;
                 case 24:
-                    tempInput->descCode = stoi(cell);
+                    if ( cell == "" ) {
+                        tempInput->descCode = 0;
+                    } else {
+                        tempInput->descCode = stoi(cell);
+                    }
                     break;
                 case 27:
                     tempInput->desc = cell;
                     break;
                 case 28:
-                    tempInput->valueStolen = stoi(cell);
+                    if ( cell == "" ) {
+                        tempInput->valueStolen = 0;
+                    } else {
+                        tempInput->valueStolen = stoi(cell);
+                    }
                     break;
                 case 29:
-                    tempInput->valueRec = stoi(cell);
+                    if ( cell == "" ) {
+                        tempInput->valueRec = 0;
+                    } else {
+                        tempInput->valueRec = stoi(cell);
+                    }
                     break;
             }
         }
