@@ -6,7 +6,7 @@
 #define DSA_PROJECT3_LINEAR_SEARCH_H
 
 #include <vector>
-#include <Crime.h>
+#include "Crime.h"
 
 std::vector<Crime*> linearSearch(vector<Crime*> &dataSet, unsigned int target, int stat) {
 

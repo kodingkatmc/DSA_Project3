@@ -12,25 +12,26 @@ vector<Crime*> binarySearchHelper(vector<Crime*> dataSet, unsigned int query, un
         results.push_back(dataSet[middle]);
 
         unsigned int i = middle-1;
-        while ( dataSet[middle]->getData(stat) == query && start <= i && i <= end) {
+        while ( dataSet[i]->getData(stat) == query && start <= i && i <= end) {
             results.push_back(dataSet[i]);
             i--;
         }
         
         i = middle+1;
-        while ( dataSet[middle]->getData(stat) == query && start <= i && i <= end ) {
+        while ( dataSet[i]->getData(stat) == query && start <= i && i <= end ) {
             results.push_back(dataSet[i]);
             i++;
         }
+        return results;
     }
     
     if ( start == end ) {
         return {};
     }
 
-    if ( data > query ) {
+    if ( data < query ) {
         return binarySearchHelper(dataSet, query, stat, middle+1, end);
-    } else if ( data < query ) {
+    } else if ( data > query ) {
         return binarySearchHelper(dataSet, query, stat, start, middle);
     }
     return {};

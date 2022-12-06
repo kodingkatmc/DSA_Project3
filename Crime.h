@@ -37,15 +37,15 @@ Crime::Crime() {
 
 unsigned int Crime::getData ( unsigned int stat ) {
     switch ( stat ) {
-        case 0:
-            return this->year;
         case 1:
-            return this->age;
+            return this->year;
         case 2:
-            return this->valueStolen;
+            return this->age;
         case 3:
-            return this->valueRec;
+            return this->valueStolen;
         case 4:
+            return this->valueRec;
+        case 5:
             return this->descCode;
     }
     return 0;
