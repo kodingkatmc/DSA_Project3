@@ -8,6 +8,7 @@
 #include "radix_sort.h"
 #include "merge_sort.h"
 #include "linear_search.h"
+#include "binary_search.h"
 
 using namespace std;
 
@@ -155,6 +156,13 @@ int main() {
             "+--------------------+\n"
             ;
 
+    static const char *const search_menu =
+            "\n"
+            "+--------------------+\n"
+            "|    Search Query    |\n"
+            "+--------------------+\n"
+            ;
+
     static const char *const characteristic_menu =
             "\n"
             "+----------------------+\n"
@@ -181,17 +189,14 @@ int main() {
             continue;
         }
 
-        int sortInput = 1;
         int characteristicInput = 1;
-        auto start = chrono::high_resolution_clock::now();
-        auto stop = chrono::high_resolution_clock::now();
-        auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
         switch (input) {
 
             // Sort Data
-            case 1:
+            case 1: {
                 // Select sorting algorithm
                 inputString = "";
+                unsigned int sortInput = 1;
                 while (inputString != "y") { // Keep looping the sort menu if user does not confirm their choices
                     
                     sortInput = getNumInput(sorting_menu, input_prompt, 1, 2);
@@ -235,14 +240,14 @@ int main() {
                 }
 
                 cout << "\n";
-                start = chrono::high_resolution_clock::now();
+                auto start = chrono::high_resolution_clock::now();
                 if (sortInput == 1) {
                     radixSort(&dataSet, characteristicInput);
                 } else if (sortInput == 2) {
                     mergeSort(&dataSet, characteristicInput);
                 }
-                stop = chrono::high_resolution_clock::now();
-                duration = chrono::duration_cast<chrono::microseconds>( stop - start );
+                auto stop = chrono::high_resolution_clock::now();
+                auto duration = chrono::duration_cast<chrono::microseconds>( stop - start );
                 
                 if (sortInput == 1) {
                     cout << "Radix Sort completed in (microseconds): " << duration.count() << endl;
@@ -252,14 +257,27 @@ int main() {
                 
                 cout << "We can now search the data in log(n) time!\n\n";
                 break;
-
+            }
             // Search Data
-            case 2:
-                // TODO: Create searching menu
+            case 2: {
+                characteristicInput = getNumInput(characteristic_menu, input_prompt, 1, 5);
+
+                unsigned int query = getNumInput(search_menu, input_prompt, 0, 2147483646);
+
+                // TODO: linear search
+                
+                // Binary Search (requires sorting)
+                radixSort(&dataSet, characteristicInput);
+                vector<Crime*> results;
+                results = binarySearch(dataSet, query, characteristicInput);
+
+                for ( auto item : results ) {
+                    cout << item->getData(characteristicInput);
+                }
+
                 break;
-
-            case 3:
-
+            }
+            case 3: {
                 cout << "\n";
                 characteristicInput = getNumInput(characteristic_menu, input_prompt, 1, 5);
 
@@ -278,6 +296,7 @@ int main() {
                 cout << "Merge Sort (microseconds): " << mergeDuration.count() << endl << endl; // Added extra newline to sperate from Main Menu
 
                 break;
+            }
         }
 
     }

@@ -2,9 +2,40 @@
 #include <vector>
 #include "Crime.h"
 
-Crime* binarySearch() {
+vector<Crime*> binarySearchHelper(vector<Crime*> dataSet, unsigned int query, unsigned int stat, unsigned int start, unsigned int end) {
     
-    // FIXME: Implement Stuf
+    unsigned int middle =  start + (end - start) / 2;
+    unsigned int data = dataSet[middle]->getData(stat);
+    
+    if ( data == query ) {
+        vector<Crime*> results;
+        results.push_back(dataSet[middle]);
 
-    return ______;
+        unsigned int i = middle-1;
+        while ( dataSet[middle]->getData(stat) == query && start <= i && i <= end) {
+            results.push_back(dataSet[i]);
+            i--;
+        }
+        
+        i = middle+1;
+        while ( dataSet[middle]->getData(stat) == query && start <= i && i <= end ) {
+            results.push_back(dataSet[i]);
+            i++;
+        }
+    }
+    
+    if ( start == end ) {
+        return {};
+    }
+
+    if ( data > query ) {
+        return binarySearchHelper(dataSet, query, stat, middle+1, end);
+    } else if ( data < query ) {
+        return binarySearchHelper(dataSet, query, stat, start, middle);
+    }
+    return {};
+}
+
+vector<Crime*> binarySearch(vector<Crime*> &dataSet, unsigned int query, unsigned int stat) {
+    return binarySearchHelper(dataSet, query, stat, 0, dataSet.size()-1);
 }
