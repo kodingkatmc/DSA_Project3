@@ -17,10 +17,10 @@ void merge(vector<Crime*>* dataSet, unsigned int stat, int left, int middle, int
 
     // Fill arrays
     for ( int i = 0; i < sizeLeft; ++i) {
-        leftArray[i] = dataSet->at(i);
+        leftArray[i] = dataSet->at(i + left);
     }
-    for ( int i = (middle + 1); i < sizeRight; ++i) {
-        rightArray[i] = dataSet->at(i);
+    for ( int i = 0; i < sizeRight; ++i) {
+        rightArray[i] = dataSet->at(i + middle + 1);
     }
 
     // Merge the two arrays together
@@ -31,12 +31,12 @@ void merge(vector<Crime*>* dataSet, unsigned int stat, int left, int middle, int
 
         // leftArray[x] <= rightArray[y]
         if (leftArray[x]->getData(stat) <= rightArray[y]->getData(stat)) {
-            dataSet->at(i) = leftArray[x];
+            dataSet->at(i + left) = leftArray[x];
             ++x;
         }
         // rightArray[y] > leftArray[x]
         else {
-            dataSet->at(i) = rightArray[y];
+            dataSet->at(i + left) = rightArray[y];
             ++y;
         }
         ++i; // Increment index
@@ -44,12 +44,12 @@ void merge(vector<Crime*>* dataSet, unsigned int stat, int left, int middle, int
 
     // Append leftover values
     for ( ; x < sizeLeft; ++x ) {
-       dataSet->at(i) = leftArray[x];
+       dataSet->at(i + left) = leftArray[x];
        ++i;
     }
 
     for ( ; y < sizeRight; ++y ) {
-        dataSet->at(i) = rightArray[y];
+        dataSet->at(i + left) = rightArray[y];
         ++i;
     }
 
@@ -68,6 +68,6 @@ void mergeSortHelper(vector<Crime*>* dataSet, unsigned int stat, int start, int 
 
 void mergeSort(vector<Crime*>* dataSet, unsigned int stat) {
 
-    mergeSortHelper(dataSet, stat, 0, dataSet->size());
+    mergeSortHelper(dataSet, stat, 0, dataSet->size() - 1);
     
 }
