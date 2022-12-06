@@ -7,9 +7,37 @@
 #include "Crime.h"
 #include "radix_sort.h"
 #include "merge_sort.h"
-#include "menu.h"
 
 using namespace std;
+
+int getNumInput(string menu, string prompt, int begin, int end) {
+    string input;
+    unsigned int output;
+    bool parsable = false;
+
+    while (!parsable) {
+        cout << menu;
+        cout << prompt;
+
+        cin >> input;
+        
+        if ( input == "exit" ) {
+            return -1;
+        }
+
+        try {
+            output = stoi(input);
+            if ( output >= begin && output <= end) {
+                parsable = true;
+            } else {
+                cout << "Number not in Range (" << begin << "-" << end << ")\n"; 
+            }
+        } catch (exception) {
+            cout << "Input not Parsable\n";
+        }
+    }
+    return output;
+}
 
 int main() {
     
@@ -44,7 +72,6 @@ int main() {
                 line = line.substr(line.find(",")+1);
             }
 
-            
             // cout << cell;
             switch ( i ) {
                 case 0:
@@ -79,32 +106,7 @@ int main() {
         }
 
         dataSet.push_back(tempInput);
-
     }
-
-//    // Testing Adding Random Values TODO: remove
-//    for ( unsigned int i = 0; i < 20; i++) {
-//        Crime* temp = new Crime;
-//        temp->age = rand()%999;
-//        temp->valueStolen = rand()%999;
-//        dataSet.push_back(temp);
-//    }
-//
-//    // Testing Sorting TODO: remove
-//    for (auto item : dataSet) {
-//        cout << item->age << ", ";
-//    }
-//    cout << "\n";
-//    mergeSort(&dataSet, 1);
-//    for (auto item : dataSet) {
-//        cout << item->age << ", ";
-//    }
-//    cout << "\n";
-//    radixSort(&dataSet, 2);
-//    for (auto item : dataSet) {
-//        cout << item->valueStolen << ", ";
-//    }
-    cout << "\n";
 
     // Menu objects
     static const char *const menu_title =
@@ -125,7 +127,7 @@ int main() {
             "Input: "
             ;
 
-    char wheel[] = {'\\','|','/', '-'}; // For loading animation
+    char wheel[] = {'\\','|','/', '-'}; // For loading animation FIXME: Do we need this
 
     static const char *const sorting_menu =
             "\n"
@@ -152,45 +154,43 @@ int main() {
 
     // Menu loop
     string inputString="";
+    bool running = true;
 
-    while ( inputString != "exit" ) {
-        // FIXME: Implement menu
+    while ( running ) {
+
         cout << menu_title;
-        cout << main_menu_options;
-        cout << input_prompt;
-        cin >> inputString;
-
-        // For testing
-        if (inputString == "exit") {
+        int input = getNumInput(main_menu_options, input_prompt, 1, 3);
+        if (input == -1) {
+            running = false;
             continue;
         }
 
-        string sortInput = "";
-        string characteristicInput = "";
-        switch(stoi(inputString)) {
+        int sortInput = 1;
+        int characteristicInput = 1;
+        auto start = chrono::high_resolution_clock::now();
+        auto stop = chrono::high_resolution_clock::now();
+        auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
+        switch (input) {
 
             // Sort Data
             case 1:
-                // TODO: Create sorting menu
                 // Select sorting algorithm
+                inputString = "";
                 while (inputString != "y") { // Keep looping the sort menu if user does not confirm their choices
-                    cout << sorting_menu;
-                    cout << input_prompt;
-                    cin >> sortInput;
+                    
+                    sortInput = getNumInput(sorting_menu, input_prompt, 1, 2);
 
-                    cout << characteristic_menu;
-                    cout << input_prompt;
-                    cin >> characteristicInput;
+                    characteristicInput = getNumInput(characteristic_menu, input_prompt, 1, 5);
 
                     cout << "\n";
                     // Print back the selected options and ask to confirm the choices
-                    if (sortInput == "1") {
+                    if (sortInput == 1) {
                         cout << "Sort: Radix" << endl;
-                    } else if (sortInput == "2") {
+                    } else if (sortInput == 2) {
                         cout << "Sort: Merge" << endl;
                     }
 
-                    switch (stoi(characteristicInput)) { // Print back the selected characteristic
+                    switch (characteristicInput) { // Print back the selected characteristic
                         case 1:
                             cout << "Characteristic: Year" << endl;
                             break;
@@ -214,11 +214,26 @@ int main() {
 
                     cout << "\n";
 
-                    cout << "Are these choices correct? (Y/n) ";
+                    cout << "Are these choices correct? (y/n) ";
                     cin >> inputString;
                 }
 
                 cout << "\n";
+                start = chrono::high_resolution_clock::now();
+                if (sortInput == 1) {
+                    radixSort(&dataSet, characteristicInput);
+                } else if (sortInput == 2) {
+                    mergeSort(&dataSet, characteristicInput);
+                }
+                stop = chrono::high_resolution_clock::now();
+                duration = chrono::duration_cast<chrono::microseconds>( stop - start );
+                
+                if (sortInput == 1) {
+                    cout << "Radix Sort completed in (microseconds): " << duration.count() << endl;
+                } else if (sortInput == 2) {
+                    cout << "Merge Sort completed in (microseconds): " << duration.count() << endl;
+                }
+                
                 cout << "We can now search the data in log(n) time!\n\n";
                 break;
 
@@ -230,20 +245,21 @@ int main() {
             case 3:
 
                 cout << "\n";
+                characteristicInput = getNumInput(characteristic_menu, input_prompt, 1, 5);
 
                 // Measure merge sort time
                 auto mergeStart = chrono::high_resolution_clock::now();
-                mergeSort(&dataSet, 2);
+                mergeSort(&dataSet, characteristicInput);
                 auto mergeStop = chrono::high_resolution_clock::now();
                 auto mergeDuration = chrono::duration_cast<chrono::microseconds>(mergeStop - mergeStart);
 
                 auto radixStart = chrono::high_resolution_clock::now();
-                radixSort(&dataSet, 1);
+                radixSort(&dataSet, characteristicInput);
                 auto radixStop = chrono::high_resolution_clock::now();
                 auto radixDuration = chrono::duration_cast<chrono::microseconds>( radixStop - radixStart);
 
                 cout << "Radix Sort (microseconds): " << radixDuration.count() << endl;
-                cout << "Merge Sort (microseconds): " << mergeDuration.count() << "\n" << endl; // Added extra newline to sperate from Main Menu
+                cout << "Merge Sort (microseconds): " << mergeDuration.count() << endl << endl; // Added extra newline to sperate from Main Menu
         }
 
     }
