@@ -264,15 +264,25 @@ int main() {
 
                 unsigned int query = getNumInput(search_menu, input_prompt, 0, 2147483646);
 
-                // TODO: linear search
-                
-                // Binary Search (requires sorting)
-                radixSort(&dataSet, characteristicInput);
+                // Linear Search TODO: Add timer
                 vector<Crime*> results;
-                results = binarySearch(dataSet, query, characteristicInput);
+                results = linearSearch(dataSet, query, characteristicInput);
+                cout << "Linear Search: " << "time" << "\n";
 
-                for ( auto item : results ) {
-                    cout << item->getData(characteristicInput);
+                // Binary Search (requires sorted data)
+                radixSort(&dataSet, characteristicInput);
+                
+                binarySearch(dataSet, query, characteristicInput);
+                
+                // Print Found Data
+                if ( results.size() == 0 ) {
+                    cout << "No item found with specified query\n";
+                } else {
+                    cout << "The following data was found:\n";    
+                    for ( auto item : results ) {
+                        cout << item->getData(characteristicInput) << ", ";
+                    }
+                    cout << "\n";
                 }
 
                 break;
