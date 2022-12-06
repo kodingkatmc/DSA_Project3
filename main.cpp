@@ -264,10 +264,13 @@ int main() {
 
                 unsigned int query = getNumInput(search_menu, input_prompt, 0, 2147483646);
 
-                // Linear Search TODO: Add timer
+                // Linear Search
                 vector<Crime*> results;
+                auto linearStart = chrono::high_resolution_clock::now();
                 results = linearSearch(dataSet, query, characteristicInput);
-                cout << "Linear Search: " << "time" << "\n";
+                auto linearStop = chrono::high_resolution_clock::now();
+                auto linearDuration = chrono::duration_cast<chrono::microseconds>(linearStop - linearStart);
+                cout << "Linear Search (microseconds): " << linearDuration.count() << "\n";
 
                 // Binary Search (requires sorted data)
                 radixSort(&dataSet, characteristicInput);
